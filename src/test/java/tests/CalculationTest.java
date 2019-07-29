@@ -1,18 +1,16 @@
 package tests;
 
-import org.junit.After;
+import base.TestBase;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import javax.xml.bind.SchemaOutputResolver;
+import java.util.List;
 
-public class CalculationTest {
+public class CalculationTest extends TestBase {
+    /*
     WebDriver driver;
 
     @Before
@@ -27,6 +25,7 @@ public class CalculationTest {
         driver.close();
         //driver.quit();
     }
+     */
 
     private void insertValues(String fund, String oneTimeInvestment, String years, String email) {
         // vybrat fond
@@ -93,17 +92,27 @@ public class CalculationTest {
 
     @Test
     public void itShouldCalculateTotalIncomeForEachFund() throws InterruptedException {
-        String[] arrayOfFunds={"Handelsbanken Aktiv 100", "Hoggwart's Fund", "Death Star real estate"};
-        for (String s : arrayOfFunds) {
-            insertValues(s, "3200", "12", "volar@morgulis.si");
-            Thread.sleep(1000);
-            WebElement interest = driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p"));
-            System.out.println("-----------------------------------");
-            System.out.println("Total income: " + getTotalIncome());
-            System.out.println("Interest income: " + getInterestIncome());
-            System.out.println("Total risk: " + getRisk());
-            Assert.assertTrue(interest.getText().contains("kr"));
+        //String[] arrayOfFunds={"Handelsbanken Aktiv 100", "Hoggwart's Fund", "Death Star real estate"};
+        //String[] arrayOfFunds = driver.findElement(By.id("fundSelect")).
+        Select option = new Select(driver.findElement(By.id("fundSelect")));
+        //option.selectByVisibleText();
+        List<WebElement> arrayOfFunds = option.getOptions();
 
+        for (WebElement s : arrayOfFunds) {
+            //System.out.println(s.getText());
+            insertValues(s.getText(), "3200", "12", "volar@morgulis.si");
+            if (s.getText().contains("Select your fund")) {
+
+            } else {
+                Thread.sleep(1000);
+                WebElement interest = driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p"));
+                System.out.println("-----------------------------------");
+                System.out.println("Fund " + s.getText());
+                System.out.println("Total income: " + getTotalIncome());
+                System.out.println("Interest income: " + getInterestIncome());
+                System.out.println("Total risk: " + getRisk());
+                Assert.assertTrue(interest.getText().contains("kr"));
+            }
         }
         System.out.println("-----------------------------------");
     }
