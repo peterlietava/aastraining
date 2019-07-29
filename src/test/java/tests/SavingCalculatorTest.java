@@ -44,7 +44,6 @@ public class SavingCalculatorTest {
         // vybrat fond
         Select option = new Select(driver.findElement(By.id("fundSelect")));
         option.selectByVisibleText("Hoggwart's Fund");
-
         // zadat sumu
         driver.findElement(By.id("oneTimeInvestmentInput")).sendKeys("3200");
         // zadat pocet rokov
@@ -53,5 +52,12 @@ public class SavingCalculatorTest {
         driver.findElement(By.id("emailInput")).sendKeys("volar@morgulis.si");
         // overit button
         Assert.assertTrue(driver.findElement(By.cssSelector("button.btn-block")).isEnabled());
+    }
+
+    @Test
+    public void itShouldNotSelectAnyFundOnPageOpen() {
+        String selectedOption = new Select(driver.findElement(By.id("fundSelect"))).getFirstSelectedOption().getText();
+        System.out.println(selectedOption);
+        Assert.assertEquals("Select your fund", selectedOption);
     }
 }
