@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
@@ -44,9 +45,10 @@ public class CalculationTest {
        // 1. vybrat fond, zadat sumu, roky, email
         insertValues("Hoggwart's Fund", "3200", "12", "volar@morgulis.si");
         // overit ze totalIncome nie je prazdny
-        System.out.println(driver.findElement(By.cssSelector("div.result > div:nth-child(1) > p")).getText());
-        Assert.assertFalse(driver.findElement(By.cssSelector("div.result > div:nth-child(1) > p")).getText().isEmpty());
-
+        WebElement total = driver.findElement(By.cssSelector("div.result > div:nth-child(1) > p"));
+        System.out.println("TOTAL: " + total.getText());
+        Assert.assertFalse(total.getText().isEmpty());
+        Assert.assertTrue(total.getText().contains("kr"));
     }
 
     @Test
@@ -54,8 +56,10 @@ public class CalculationTest {
         // 1. vybrat fond, zadat sumu, roky, email
         insertValues("Hoggwart's Fund", "3200", "12", "volar@morgulis.si");
         // overit ze totalIncome nie je prazdny
-        System.out.println(driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p")).getText());
-        Assert.assertFalse(driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p")).getText().isEmpty());
+        WebElement interest = driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p"));
+        System.out.println("INTEREST: " + interest.getText());
+        Assert.assertFalse(interest.getText().isEmpty());
+        Assert.assertTrue(interest.getText().contains("kr"));
     }
 
     @Test
@@ -63,7 +67,9 @@ public class CalculationTest {
         // 1. vybrat fond, zadat sumu, roky, email
         insertValues("Hoggwart's Fund", "3200", "12", "volar@morgulis.si");
         // overit ze totalIncome nie je prazdny
-        System.out.println(driver.findElement(By.cssSelector("div.result > div:nth-child(3) > p")).getText());
-        Assert.assertFalse(driver.findElement(By.cssSelector("div.result > div:nth-child(3) > p")).getText().isEmpty());
+        WebElement risk = driver.findElement(By.cssSelector("div.result > div:nth-child(3) > p"));
+        System.out.println("RISK: " + risk.getText());
+        Assert.assertFalse(risk.getText().isEmpty());
+        Assert.assertFalse(risk.getText().contains("kr"));
     }
 }
