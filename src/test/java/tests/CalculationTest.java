@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import javax.xml.bind.SchemaOutputResolver;
+
 public class CalculationTest {
     WebDriver driver;
 
@@ -43,6 +45,19 @@ public class CalculationTest {
         //Assert.assertTrue(driver.findElement(By.cssSelector("button.btn-block")).isEnabled());
     }
 
+    private String getTotalIncome() {
+        WebElement totalIncome = driver.findElement(By.cssSelector("div.result > div:nth-child(1) > p"));
+        return totalIncome.getText();
+    }
+    private String getInterestIncome() {
+        WebElement totalIncome = driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p"));
+        return totalIncome.getText();
+    }
+
+    private String getRisk() {
+        WebElement totalIncome = driver.findElement(By.cssSelector("div.result > div:nth-child(3) > p"));
+        return totalIncome.getText();
+    }
     @Test
     public void itShouldCalculateTotalIncome() {
        // 1. vybrat fond, zadat sumu, roky, email
@@ -83,8 +98,13 @@ public class CalculationTest {
             insertValues(s, "3200", "12", "volar@morgulis.si");
             Thread.sleep(1000);
             WebElement interest = driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p"));
+            System.out.println("-----------------------------------");
+            System.out.println("Total income: " + getTotalIncome());
+            System.out.println("Interest income: " + getInterestIncome());
+            System.out.println("Total risk: " + getRisk());
             Assert.assertTrue(interest.getText().contains("kr"));
 
         }
+        System.out.println("-----------------------------------");
     }
 }
