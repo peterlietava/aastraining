@@ -26,18 +26,21 @@ public class CalculationTest {
         //driver.quit();
     }
 
-    public void insertValues(String fund, String oneTimeInvestment, String years, String email) {
+    private void insertValues(String fund, String oneTimeInvestment, String years, String email) {
         // vybrat fond
         Select option = new Select(driver.findElement(By.id("fundSelect")));
         option.selectByVisibleText(fund);
         // zadat sumu
+        driver.findElement(By.id("oneTimeInvestmentInput")).clear();
         driver.findElement(By.id("oneTimeInvestmentInput")).sendKeys(oneTimeInvestment);
         // zadat pocet rokov
+        driver.findElement(By.id("yearsInput")).clear();
         driver.findElement(By.id("yearsInput")).sendKeys(years);
         // zadar email
+        driver.findElement(By.id("emailInput")).clear();
         driver.findElement(By.id("emailInput")).sendKeys(email);
         // overit button
-        Assert.assertTrue(driver.findElement(By.cssSelector("button.btn-block")).isEnabled());
+        //Assert.assertTrue(driver.findElement(By.cssSelector("button.btn-block")).isEnabled());
     }
 
     @Test
@@ -71,5 +74,17 @@ public class CalculationTest {
         System.out.println("RISK: " + risk.getText());
         Assert.assertFalse(risk.getText().isEmpty());
         Assert.assertFalse(risk.getText().contains("kr"));
+    }
+
+    @Test
+    public void itShouldCalculateTotalIncomeForEachFund() throws InterruptedException {
+        String[] arrayOfFunds={"Handelsbanken Aktiv 100", "Hoggwart's Fund", "Death Star real estate"};
+        for (String s : arrayOfFunds) {
+            insertValues(s, "3200", "12", "volar@morgulis.si");
+            Thread.sleep(1000);
+            WebElement interest = driver.findElement(By.cssSelector("div.result > div:nth-child(2) > p"));
+            Assert.assertTrue(interest.getText().contains("kr"));
+
+        }
     }
 }
