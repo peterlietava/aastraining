@@ -60,4 +60,5 @@ public class SavingCalculatorTest {
         System.out.println(selectedOption);
         Assert.assertEquals("Select your fund", selectedOption);
     }
+
 }
